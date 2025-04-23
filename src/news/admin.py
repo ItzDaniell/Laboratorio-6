@@ -64,5 +64,17 @@ class ArticleAdmin(admin.ModelAdmin):
         return "No image"
     display_image.short_description = "Image"
 
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    """Admin configuration for tags"""
+    list_display = ("name", "slug", "article_count")
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ("name",)
+    
+    def article_count(self, obj):
+        """Count articles with this tag"""
+        count = obj.articles.count()
+        return count if count > 0 else "-"
+    article_count.short_description = "Articles"
 
 
