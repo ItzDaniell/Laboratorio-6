@@ -23,3 +23,15 @@ class Category(models.Model):
     
     def get_absolute_url(self):
         return reverse("news:category_detail", kwargs={"slug": self.slug})
+
+class Reporter(models.Model):
+    """Reporter/author model"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to="reporters/", blank=True)
+    
+    def __str__(self):
+        return self.user.get_full_name() or self.user.username
+    
+    def get_absolute_url(self):
+        return reverse("news:reporter_detail", kwargs={"pk": self.pk})
