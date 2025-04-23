@@ -16,7 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
         return count if count > 0 else "-"
     article_count.short_description = "Articles"
 
-class Tagline(admin.TabularInline):
+class TagInline(admin.TabularInline):
     """Inline admin fot tag"""
     model = Tag.articles.through
     extra = 1
