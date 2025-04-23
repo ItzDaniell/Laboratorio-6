@@ -16,3 +16,14 @@ class CategoryAdmin(admin.ModelAdmin):
         return count if count > 0 else "-"
     article_count.short_description = "Articles"
 
+class Tagline(admin.TabularInline):
+    """Inline admin fot tag"""
+    model = Tag.articles.through
+    extra = 1
+
+@admin.register(Reporter)
+class ReporteAdmin(admin.ModelAdmin):
+    """Admin configuration for reporters"""
+    list_display = ("user", "display_name", "article_count")
+    search_fields = ("user__username", "user__first_name", "user__last_name", "bio")
+    
