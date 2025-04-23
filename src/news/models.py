@@ -73,3 +73,22 @@ class Article(models.Model):
     
     def get_absolute_url(self):
         return reverse("news:article_detail", kwargs={"slug": self.slug})
+    
+class Tag(models.Model):
+    """Tag model for articles"""
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
+    
+    # Relationship
+    articles = models.ManyToManyField(Article, related_name="tags")
+    
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("news:tag_detail", kwargs={"slug": self.slug})
